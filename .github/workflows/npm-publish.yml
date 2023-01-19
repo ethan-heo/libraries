@@ -9,7 +9,7 @@ on:
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
-
+    GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
 jobs:
     version:
         timeout-minutes: 15
@@ -31,6 +31,8 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: dependencies를 설치한다
               run: pnpm install
+            - name: github token 확인
+              run: echo $GITHUB_TOKEN
             - name: 버전을 생성하고 퍼블리싱한다
               uses: changesets/action@v1
               with:
@@ -39,4 +41,4 @@ jobs:
                   title: "chore: update versions"
                   publish: pnpm ci:publish
               env:
-                  GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+                  GITHUB_TOKEN: $GITHUB_TOKEN
