@@ -12,8 +12,8 @@
         "lint": "turbo run lint",
         "watch": "turbo run watch",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "ci:publish": "pnpm changeset publish",
-        "ci:version": "pnpm changeset version --snapshot"
+        "ci:publish": "pnpm publish -r",
+        "ci:version": "pnpm changeset version"
     },
     "devDependencies": {
         "@changesets/cli": "^2.26.0",
