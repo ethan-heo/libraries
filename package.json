@@ -12,6 +12,7 @@
         "lint": "turbo run lint",
         "watch": "turbo run watch",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "release": "changeset",
         "ci:publish": "changeset publish",
         "ci:version": "changeset version"
     },
