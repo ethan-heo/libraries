@@ -24,13 +24,14 @@ jobs:
                   node-version: 16
             - name: PNPM을 설치한다
               run: npm i pnpm@latest -g
-            - name: .npmrc를 생성한다
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-            - name: PNPM config를 설정한다
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-            - name: dependencies를 설치한다
+            - name: Install dependencies
               run: pnpm install
-            - name: 버전을 생성한다
-              run: pnpm ci:version
-            - name: 버저닝된 패키지를 배포한다
-              run: pnpm ci:publish
+            - name: Create Release Pull Request or Publish to npm
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  version: pnpm ci:version
+                  publish: pnpm ci:publish
+              env:
+                  GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
