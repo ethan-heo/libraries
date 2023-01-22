@@ -30,12 +30,7 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: dependencies를 설치한다
               run: pnpm install
-            - name: 버전을 생성하고 퍼블리싱한다
-              uses: changesets/action@v1
-              with:
-                  version: pnpm ci:version
-                  commit: "chore: update versions"
-                  title: "chore: update versions"
-                  publish: pnpm ci:publish
-              env:
-                  GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+            - name: 버전을 생성한다
+              run: pnpm ci:version
+            - name: 버저닝된 패키지를 배포한다
+              run: pnpm ci:publish
