@@ -12,11 +12,12 @@ export default defineConfig({
         lib: {
             entry: resolve(__dirname, "src/index.ts"),
             name: "react-hooks",
-            fileName: "index",
+            fileName: "react-hooks",
         },
         rollupOptions: {
             external: ["react", "react-dom"],
         },
+        sourcemap: true,
     },
     test: {
         environment: "jsdom",

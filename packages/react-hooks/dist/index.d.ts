@@ -1,5 +1,1 @@
-export declare function useCounter(): {
-    counter: number;
-    increaseCount: () => void;
-    decreaseCount: () => void;
-};
+export { default as useClickOutOfArea } from "./useClickOutOfArea";
