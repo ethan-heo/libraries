@@ -19,7 +19,7 @@ export default function useClickOutOfArea<T extends HTMLElement>(
         function handleDocumentClick(ev: MouseEvent) {
             const _target = ev.target as HTMLElement;
 
-            if (targetEl?.contains(_target)) {
+            if (!targetEl?.contains(_target)) {
                 callback();
             }
         }

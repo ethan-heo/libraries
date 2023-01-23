@@ -26,15 +26,15 @@ describe("useClickOutOfArea", () => {
     it("버튼 영역 이외에 다른 영역을 클릭하면 callback 함수가 수행되어야 한다", async () => {
         const { findByText } = render(<TestComponent onClick={obj.click} />);
 
-        const outerArea = await findByText("outer");
-
-        outerArea.click();
-
-        expect(spy).not.toHaveBeenCalled();
-
         const innerArea = await findByText("inner");
 
         innerArea.click();
+
+        expect(spy).not.toHaveBeenCalled();
+
+        const outerArea = await findByText("outer");
+
+        outerArea.click();
 
         expect(spy).toHaveBeenCalled();
     });
