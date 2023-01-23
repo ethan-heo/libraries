@@ -8,11 +8,15 @@ importers:
       eslint-config-custom: workspace:*
       prettier: latest
       turbo: latest
+      typedoc: ^0.23.24
+      typedoc-plugin-rename-defaults: ^0.6.4
     devDependencies:
       '@changesets/cli': 2.26.0
       eslint-config-custom: link:packages/eslint-config-custom
       prettier: 2.8.3
       turbo: 1.7.0
+      typedoc: 0.23.24
+      typedoc-plugin-rename-defaults: 0.6.4_typedoc@0.23.24
 
   apps/docs:
     specifiers:
@@ -4075,7 +4079,20 @@ packages:
     peerDependencies:
       typedoc: 0.22.x || 0.23.x
     dependencies:
-      typedoc: 0.23.24_typescript@4.9.4
+      typedoc: 0.23.24
+    dev: true
+
+  /typedoc/0.23.24:
+    resolution: {integrity: sha512-bfmy8lNQh+WrPYcJbtjQ6JEEsVl/ce1ZIXyXhyW+a1vFrjO39t6J8sL/d6FfAGrJTc7McCXgk9AanYBSNvLdIA==}
+    engines: {node: '>= 14.14'}
+    hasBin: true
+    peerDependencies:
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x
+    dependencies:
+      lunr: 2.3.9
+      marked: 4.2.12
+      minimatch: 5.1.4
+      shiki: 0.12.1
     dev: true
 
   /typedoc/0.23.24_typescript@4.9.4:

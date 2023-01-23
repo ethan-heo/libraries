@@ -3,10 +3,10 @@
     "version": "0.0.0",
     "private": true,
     "workspaces": [
-        "apps/*",
         "packages/*"
     ],
     "scripts": {
+        "build:doc": "typedoc --tsconfig tsconfig.typedoc.json",
         "build": "turbo run build",
         "dev": "turbo run dev --parallel",
         "lint": "turbo run lint",
@@ -20,7 +20,9 @@
         "@changesets/cli": "^2.26.0",
         "eslint-config-custom": "workspace:*",
         "prettier": "latest",
-        "turbo": "latest"
+        "turbo": "latest",
+        "typedoc": "^0.23.24",
+        "typedoc-plugin-rename-defaults": "^0.6.4"
     },
     "engines": {
         "node": ">=14.0.0"
