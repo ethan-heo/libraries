@@ -1,5 +1,11 @@
 # @ethan-heo/react-hooks
 
+## 0.3.0
+
+### Minor Changes
+
+-   6ed157d: Fix reverse in action
+
 ## 0.2.0
 
 ### Minor Changes
