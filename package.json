@@ -6,7 +6,7 @@
         "packages/*"
     ],
     "scripts": {
-        "build:doc": "typedoc --tsconfig tsconfig.typedoc.json",
+        "build:doc": "typedoc --categorizeByGroup false --tsconfig tsconfig.typedoc.json",
         "build": "turbo run build",
         "dev": "turbo run dev --parallel",
         "lint": "turbo run lint",
