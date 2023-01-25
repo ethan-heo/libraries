@@ -1,5 +1,11 @@
 # @ethan-heo/react-hooks
 
+## 0.5.0
+
+### Minor Changes
+
+-   e323c21: Add custom eslint
+
 ## 0.4.0
 
 ### Minor Changes
