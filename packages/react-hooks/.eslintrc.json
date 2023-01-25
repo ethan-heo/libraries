@@ -4,9 +4,10 @@
         "es2021": true
     },
     "extends": [
-        "eslint:recommended",
+        "@ethan-heo/eslint-config",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -16,10 +17,8 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
+    "plugins": ["react", "prettier", "@typescript-eslint"],
     "rules": {
+        "prettier/prettier": "error"
     }
 }
