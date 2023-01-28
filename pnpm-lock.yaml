@@ -24,6 +24,42 @@ importers:
     devDependencies:
       eslint: 8.32.0
 
+  packages/react-calendar:
+    specifiers:
+      '@ethan-heo/eslint-config': workspace:*
+      '@testing-library/react': ^13.4.0
+      '@types/react': ^18.0.26
+      '@types/react-dom': ^18.0.9
+      '@typescript-eslint/eslint-plugin': ^5.49.0
+      '@typescript-eslint/parser': ^5.49.0
+      '@vitejs/plugin-react': ^3.0.0
+      eslint: ^8.32.0
+      eslint-plugin-react: ^7.32.1
+      jsdom: ^21.1.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      typescript: ^4.9.3
+      vite: ^4.0.0
+      vite-plugin-dts: ^1.7.1
+      vitest: ^0.27.1
+    devDependencies:
+      '@ethan-heo/eslint-config': link:../eslint-config
+      '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.10
+      '@typescript-eslint/eslint-plugin': 5.49.0_iu322prlnwsygkcra5kbpy22si
+      '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
+      '@vitejs/plugin-react': 3.0.1_vite@4.0.4
+      eslint: 8.32.0
+      eslint-plugin-react: 7.32.1_eslint@8.32.0
+      jsdom: 21.1.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      typescript: 4.9.4
+      vite: 4.0.4
+      vite-plugin-dts: 1.7.1_vite@4.0.4
+      vitest: 0.27.1_jsdom@21.1.0
+
   packages/react-hooks:
     specifiers:
       '@ethan-heo/eslint-config': workspace:*
