@@ -1,4 +1,10 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, {
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import Calendar, { CalendarOption } from "./core";
 import { DateJs } from "./modules/datejs";
 
@@ -18,7 +24,7 @@ const ReactCalendar = React.forwardRef(
         ref: React.ForwardedRef<CalendarImperativeHandlers>
     ) => {
         const calendarApi = useRef(new Calendar()).current;
-        const [range, setRange] = useState(calendarApi.getRange());
+        const [range, setRange] = useState<DateJs[][]>([]);
 
         useImperativeHandle(ref, () => ({
             getApi: () => {
@@ -35,16 +41,55 @@ const ReactCalendar = React.forwardRef(
             };
 
             function updateRange(range: DateJs[]) {
-                setRange(range);
+                setRange(mutateRange(range));
+            }
+
+            function mutateRange(range: DateJs[]) {
+                const result: DateJs[][] = [];
+                let temp: DateJs[] = [];
+
+                range.forEach((range, index) => {
+                    if (index !== 0 && index % 7 === 0) {
+                        result.push(temp);
+                        console.log(temp);
+                        temp = [];
+                    }
+
+                    temp.push(range);
+                });
+
+                return result;
             }
         }, [option.date, option.row]);
 
         return (
             <div>
-                {range.map((r) => {
-                    const formattedText = r.format("YYYY-MM-DD");
-                    return <li key={formattedText}>{formattedText}</li>;
-                })}
+                <table>
+                    <thead>
+                        <tr>
+                            <td>일</td>
+                            <td>월</td>
+                            <td>화</td>
+                            <td>수</td>
+                            <td>목</td>
+                            <td>금</td>
+                            <td>토</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {range.map((rangeArr, index) => {
+                            return (
+                                <tr key={`rc-row-${index}`}>
+                                    {rangeArr.map((range) => {
+                                        const dateStr =
+                                            range.format("YYYY-MM-DD");
+                                        return <td key={dateStr}>{dateStr}</td>;
+                                    })}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
         );
     }
