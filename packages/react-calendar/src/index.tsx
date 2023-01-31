@@ -1,10 +1,4 @@
-import React, {
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import Calendar, { CalendarOption } from "./core";
 import { DateJs } from "./modules/datejs";
 
@@ -51,16 +45,19 @@ const ReactCalendar = React.forwardRef(
                 range.forEach((range, index) => {
                     if (index !== 0 && index % 7 === 0) {
                         result.push(temp);
-                        console.log(temp);
                         temp = [];
                     }
 
                     temp.push(range);
                 });
 
+                result.push(temp);
+
                 return result;
             }
         }, [option.date, option.row]);
+
+        console.log(range);
 
         return (
             <div>
