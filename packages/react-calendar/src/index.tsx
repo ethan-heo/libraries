@@ -1,6 +1,7 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import Calendar, { CalendarOption } from "./core";
 import { DateJs } from "./modules/datejs";
+import "./styles/react-calendar.css";
 
 type ReactCalendarProps = CalendarOption;
 
@@ -57,11 +58,19 @@ const ReactCalendar = React.forwardRef(
             }
         }, [option.date, option.row]);
 
-        console.log(range);
-
         return (
             <div>
-                <table>
+                <table className="rc-table">
+                    <caption>제목</caption>
+                    <colgroup>
+                        <col></col>
+                        <col></col>
+                        <col></col>
+                        <col></col>
+                        <col></col>
+                        <col></col>
+                        <col></col>
+                    </colgroup>
                     <thead>
                         <tr>
                             <td>일</td>
@@ -78,9 +87,21 @@ const ReactCalendar = React.forwardRef(
                             return (
                                 <tr key={`rc-row-${index}`}>
                                     {rangeArr.map((range) => {
-                                        const dateStr =
-                                            range.format("YYYY-MM-DD");
-                                        return <td key={dateStr}>{dateStr}</td>;
+                                        return (
+                                            <td
+                                                key={range.format("YYYY-MM-DD")}
+                                            >
+                                                <div className="rc-day-frame">
+                                                    <div className="rc-day-frame__header">
+                                                        {range.format("DD")}
+                                                    </div>
+                                                    <ul className="rc-day-frame__content">
+                                                        <li>content1</li>
+                                                        <li>content2</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        );
                                     })}
                                 </tr>
                             );

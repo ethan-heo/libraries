@@ -1,0 +1,37 @@
+:root {
+    --rc-background-color: #fff;
+    --rc-border-color: #ddd;
+    --rc-colgroup-width: calc(100% / 7);
+    --rc-spacing-1: 4px;
+}
+
+.rc-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rc-table colgroup col {
+    width: var(--rc-colgroup-width);
+}
+
+.rc-table td {
+    padding: var(--rc-spacing-1);
+    border: 1px solid var(--rc-border-color);
+}
+
+.rc-table .rc-day-frame {
+    min-height: 80px;
+}
+
+.rc-table .rc-day-frame__header {
+    margin-bottom: var(--rc-spacing-1);
+}
+
+.rc-table .rc-day-frame__content {
+    margin: 0;
+    padding: 0;
+}
+
+.rc-table .rc-day-frame__content li {
+    list-style: none;
+}
