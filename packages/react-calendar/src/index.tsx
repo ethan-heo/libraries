@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import Calendar, { CalendarOption } from "./core";
 import { DateJs } from "./modules/datejs";
 
@@ -8,31 +8,48 @@ const defaultOption: ReactCalendarProps = {
     date: new Date(),
 };
 
-function ReactCalendar(option: ReactCalendarProps = defaultOption) {
-    const optionRef = useRef(new Calendar()).current;
-    const [range, setRange] = useState(optionRef.getRange());
+export type CalendarImperativeHandlers = {
+    getApi: () => Calendar;
+};
 
-    useEffect(() => {
-        optionRef.on("range", updateRange);
-        optionRef.setRange(option.date || new Date(), option.row);
+const ReactCalendar = React.forwardRef(
+    (
+        option: ReactCalendarProps = defaultOption,
+        ref: React.ForwardedRef<CalendarImperativeHandlers>
+    ) => {
+        const calendarApi = useRef(new Calendar()).current;
+        const [range, setRange] = useState(calendarApi.getRange());
 
-        return () => {
-            optionRef.off("range", updateRange);
-        };
+        useImperativeHandle(ref, () => ({
+            getApi: () => {
+                return calendarApi;
+            },
+        }));
 
-        function updateRange(range: DateJs[]) {
-            setRange(range);
-        }
-    }, [option.date, option.row]);
+        useEffect(() => {
+            calendarApi.on("range", updateRange);
+            calendarApi.setRange(option.date || new Date(), option.row);
 
-    return (
-        <div>
-            {range.map((r) => {
-                const formattedText = r.format("YYYY-MM-DD");
-                return <li key={formattedText}>{formattedText}</li>;
-            })}
-        </div>
-    );
-}
+            return () => {
+                calendarApi.off("range", updateRange);
+            };
+
+            function updateRange(range: DateJs[]) {
+                setRange(range);
+            }
+        }, [option.date, option.row]);
+
+        return (
+            <div>
+                {range.map((r) => {
+                    const formattedText = r.format("YYYY-MM-DD");
+                    return <li key={formattedText}>{formattedText}</li>;
+                })}
+            </div>
+        );
+    }
+);
+
+ReactCalendar.displayName = "ReactCalendar";
 
 export default ReactCalendar;
