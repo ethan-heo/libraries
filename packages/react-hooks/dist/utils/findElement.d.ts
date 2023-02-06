@@ -1,1 +1,1 @@
-export default function findElement<T extends HTMLElement>(target: React.RefObject<T> | HTMLElement | string): T | null;
+export default function findElement<T extends HTMLElement>(target: Target<T>): T | null;

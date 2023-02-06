@@ -48,7 +48,7 @@ function useMoveToScroll<T extends HTMLElement>(
         function moveCursor(e: MouseEvent) {
             if (!state.current.isActive) return;
 
-            const target = e.target as HTMLElement;
+            const target = e.currentTarget as HTMLElement;
 
             moveToScroll(
                 target,
@@ -59,12 +59,21 @@ function useMoveToScroll<T extends HTMLElement>(
         function moveTouch(e: TouchEvent) {
             if (!state.current.isActive) return;
 
-            const target = e.target as HTMLElement;
-
-            moveToScroll(
+            const target = e.currentTarget as HTMLElement;
+            const position = getPosition(
                 target,
-                getPosition(target, options.boundary, getCoordinate(e))
+                options.boundary,
+                getCoordinate(e)
             );
+
+            /**
+             * https://www.uriports.com/blog/easy-fix-for-intervention-ignored-attempt-to-cancel-a-touchmove-event-with-cancelable-false/
+             */
+            if (e.cancelable && position !== POSITION.CENTER) {
+                e.preventDefault();
+            }
+
+            moveToScroll(target, position);
         }
     }, [options]);
 }
@@ -72,7 +81,7 @@ function useMoveToScroll<T extends HTMLElement>(
 export default useMoveToScroll;
 
 function getCoordinate(e: MouseEvent | TouchEvent): [number, number] {
-    const { left, top } = getBoundingClientRect(e.target as HTMLElement);
+    const { left, top } = getBoundingClientRect(e.currentTarget as HTMLElement);
 
     if ("clientX" in e) {
         return [e.clientX - left, e.clientY - top];
@@ -108,22 +117,22 @@ function getPosition(
     boundary: number,
     pos: [number, number]
 ) {
-    const { x, y, width, height } = target.getBoundingClientRect();
+    const { width, height } = target.getBoundingClientRect();
     const [posX, posY] = pos;
 
-    if (posX >= x && posX <= x + boundary) {
+    if (posX >= 0 && posX <= boundary) {
         return POSITION.LEFT;
     }
 
-    if (posX >= x + width - boundary && posX <= x + width) {
+    if (posX >= width - boundary && posX <= width) {
         return POSITION.RIGHT;
     }
 
-    if (posY >= y && posY <= y + boundary) {
+    if (posY >= 0 && posY <= boundary) {
         return POSITION.TOP;
     }
 
-    if (posY >= y + height - boundary && posY <= y + height) {
+    if (posY >= height - boundary && posY <= height) {
         return POSITION.BOTTOM;
     }
 
@@ -134,22 +143,22 @@ function moveToScroll(el: HTMLElement, position: number) {
     switch (position) {
         case POSITION.TOP:
             el.scrollTo({
-                top: el.scrollTop - 20,
+                top: el.scrollTop - 5,
             });
             break;
         case POSITION.BOTTOM:
             el.scrollTo({
-                top: el.scrollTop + 20,
+                top: el.scrollTop + 5,
             });
             break;
         case POSITION.LEFT:
             el.scrollTo({
-                left: el.scrollLeft - 20,
+                left: el.scrollLeft - 5,
             });
             break;
         case POSITION.RIGHT:
             el.scrollTo({
-                left: el.scrollLeft + 20,
+                left: el.scrollLeft + 5,
             });
             break;
         default:
