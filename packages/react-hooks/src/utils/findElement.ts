@@ -1,6 +1,4 @@
-export default function findElement<T extends HTMLElement>(
-    target: React.RefObject<T> | HTMLElement | string
-) {
+export default function findElement<T extends HTMLElement>(target: Target<T>) {
     if (typeof target !== "object") {
         return document.querySelector<T>(target);
     }

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import React, { describe, expect, it, vi } from "vitest";
 import useClickOutOfArea from "./index";
 import { render } from "@testing-library/react";
 import { useRef } from "react";
@@ -19,7 +19,9 @@ describe("useClickOutOfArea", () => {
     }
 
     const obj = {
-        click: () => {},
+        click: () => {
+            console.log("click me");
+        },
     };
     const spy = vi.spyOn(obj, "click").mockImplementation(() => void 0);
 
