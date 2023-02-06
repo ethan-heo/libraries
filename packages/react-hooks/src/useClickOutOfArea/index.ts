@@ -26,7 +26,7 @@ import findElement from "../utils/findElement";
  * ```
  */
 export default function useClickOutOfArea<T extends HTMLElement>(
-    target: React.RefObject<T> | HTMLElement | string,
+    target: Target<T>,
     callback: () => void
 ) {
     useEffect(() => {
