@@ -1,5 +1,11 @@
 # @ethan-heo/react-hooks
 
+## 0.6.0
+
+### Minor Changes
+
+-   2ff60fc: Add useMoveToScroll hook
+
 ## 0.5.0
 
 ### Minor Changes
