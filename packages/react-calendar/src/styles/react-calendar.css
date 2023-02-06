@@ -3,11 +3,13 @@
     --rc-border-color: #ddd;
     --rc-colgroup-width: calc(100% / 7);
     --rc-spacing-1: 4px;
+    --rc-font-size: 1rem;
 }
 
 .rc-table {
     width: 100%;
     border-collapse: collapse;
+    font-size: var(--rc-font-size);
 }
 
 .rc-table colgroup col {

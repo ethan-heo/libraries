@@ -1,12 +1,15 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
-import Calendar, { CalendarOption } from "./core";
+import Calendar from "./core";
 import { DateJs } from "./modules/datejs";
 import "./styles/react-calendar.css";
 
-type ReactCalendarProps = CalendarOption;
+type ReactCalendarProps = {
+    initialDate?: Date;
+    row?: number;
+};
 
 const defaultOption: ReactCalendarProps = {
-    date: new Date(),
+    initialDate: new Date(),
 };
 
 export type CalendarImperativeHandlers = {
@@ -15,10 +18,10 @@ export type CalendarImperativeHandlers = {
 
 const ReactCalendar = React.forwardRef(
     (
-        option: ReactCalendarProps = defaultOption,
+        option: ReactCalendarProps,
         ref: React.ForwardedRef<CalendarImperativeHandlers>
     ) => {
-        const calendarApi = useRef(new Calendar()).current;
+        const calendarApi = useRef(new Calendar(option.initialDate!)).current;
         const [range, setRange] = useState<DateJs[][]>([]);
 
         useImperativeHandle(ref, () => ({
@@ -28,11 +31,11 @@ const ReactCalendar = React.forwardRef(
         }));
 
         useEffect(() => {
-            calendarApi.on("range", updateRange);
-            calendarApi.setRange(option.date || new Date(), option.row);
+            calendarApi.on("dates", updateRange);
+            calendarApi.setDates(option.initialDate!, option.row);
 
             return () => {
-                calendarApi.off("range", updateRange);
+                calendarApi.off("dates", updateRange);
             };
 
             function updateRange(range: DateJs[]) {
@@ -56,12 +59,24 @@ const ReactCalendar = React.forwardRef(
 
                 return result;
             }
-        }, [option.date, option.row]);
+        }, [option.initialDate, option.row]);
+
+        const handleNextMonth = () => {
+            calendarApi.next();
+        };
+
+        const handlePrevMonth = () => {
+            calendarApi.prev();
+        };
 
         return (
             <div>
                 <table className="rc-table">
-                    <caption>제목</caption>
+                    <caption>
+                        <button onClick={handlePrevMonth}>{`<`}</button>
+                        {calendarApi.format("YYYY-MM-DD")}
+                        <button onClick={handleNextMonth}>{`>`}</button>
+                    </caption>
                     <colgroup>
                         <col></col>
                         <col></col>
@@ -114,5 +129,6 @@ const ReactCalendar = React.forwardRef(
 );
 
 ReactCalendar.displayName = "ReactCalendar";
+ReactCalendar.defaultProps = defaultOption;
 
 export default ReactCalendar;

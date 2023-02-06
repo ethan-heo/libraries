@@ -1,32 +1,63 @@
-import { DateJs } from "../modules/datejs";
+import datejs, { DateJs } from "../modules/datejs";
 import generateCalendarDates from "./generateCalendarDates";
 
-export type CalendarOption = {
-    row?: number;
-    date?: Date;
-};
-
 type CalendarEventMap = {
-    range: (range: DateJs[]) => void;
+    dates: (dates: DateJs[]) => void;
 };
 type CalendarEventKey = keyof CalendarEventMap;
 type CalendarEventValue<Name extends CalendarEventKey> = CalendarEventMap[Name];
 
 class Calendar {
-    private range: DateJs[] = [];
+    private currentDate: DateJs;
+    private dates: DateJs[] = [];
     private events = new Map<
         CalendarEventKey,
         Set<CalendarEventValue<CalendarEventKey>>
     >();
 
-    getRange() {
-        return this.range;
+    constructor(date: Date) {
+        this.currentDate = datejs(date);
     }
 
-    setRange(date: Date, row?: number) {
-        this.range = generateCalendarDates(date, row);
+    getDates() {
+        return this.dates;
+    }
 
-        this.events.get("range")?.forEach((callback) => callback(this.range));
+    setDates(date: Date, row?: number) {
+        this.dispatch("dates", (this.dates = generateCalendarDates(date, row)));
+    }
+
+    next() {
+        this.dispatch(
+            "dates",
+            (this.dates = generateCalendarDates(
+                (this.currentDate = this.currentDate.add(1, "month"))
+            ))
+        );
+    }
+
+    prev() {
+        this.dispatch(
+            "dates",
+            (this.dates = generateCalendarDates(
+                (this.currentDate = this.currentDate.subtract(1, "month"))
+            ))
+        );
+    }
+
+    format(value: string) {
+        return this.currentDate.format(value);
+    }
+
+    dispatch<Name extends CalendarEventKey>(
+        name: Name,
+        ...value: Parameters<CalendarEventValue<Name>>
+    ) {
+        this.events
+            .get(name)
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            ?.forEach((callback) => callback(...value));
     }
 
     on<Name extends CalendarEventKey>(
