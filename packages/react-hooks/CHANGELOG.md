@@ -1,5 +1,11 @@
 # @ethan-heo/react-hooks
 
+## 0.8.0
+
+### Minor Changes
+
+-   26dc2a0: useDragScroll 훅에 deps를 추가한다
+
 ## 0.7.0
 
 ### Minor Changes
