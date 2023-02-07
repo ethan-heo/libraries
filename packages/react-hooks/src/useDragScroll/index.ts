@@ -92,7 +92,7 @@ function useDragScroll<T extends HTMLElement>(
                 }, 10);
             }
         }
-    }, [options]);
+    }, [target, options]);
 }
 
 export default useDragScroll;
