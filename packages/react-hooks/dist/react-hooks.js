@@ -1,76 +1,84 @@
-import { useEffect as a, useRef as h } from "react";
-function E(e) {
+import { useEffect as E, useRef as L } from "react";
+function h(e) {
   return typeof e != "object" ? document.querySelector(e) : Object.hasOwn(e, "nodeName") ? e : Object.hasOwn(e, "current") ? e.current : null;
 }
 function C(e, t) {
-  a(() => {
-    const o = E(e);
+  E(() => {
+    const o = h(e);
     if (!o)
       throw TypeError("Not found target", { cause: e });
     return document.addEventListener("click", n), () => {
       document.removeEventListener("click", n);
     };
     function n(i) {
-      const r = i.target;
-      o != null && o.contains(r) || t();
+      const c = i.target;
+      o != null && o.contains(c) || t();
     }
   }, []);
 }
-const L = {
+const O = {
   boundary: 40
 };
-function R(e, t = L) {
-  const o = h({
+function R(e, t = O) {
+  const o = L({
     isActive: !1
   });
-  a(() => {
-    const n = E(e);
+  E(() => {
+    const n = h(e);
     if (!n)
       return;
-    return n.addEventListener("mousedown", i), n.addEventListener("touchstart", i), n.addEventListener("mouseup", r), n.addEventListener("touchend", r), n.addEventListener("mousemove", u), n.addEventListener("touchmove", l), () => {
-      n == null || n.removeEventListener("mousedown", i), n == null || n.removeEventListener("touchstart", i), n == null || n.removeEventListener("mouseup", r), n == null || n.removeEventListener("touchend", r), n == null || n.removeEventListener("mousemove", u), n == null || n.removeEventListener("touchmove", l);
+    let i;
+    return n.addEventListener("mousedown", c), n.addEventListener("touchstart", c), n.addEventListener("mouseup", u), n.addEventListener("touchend", u), n.addEventListener("mousemove", v), n.addEventListener("touchmove", d), () => {
+      n == null || n.removeEventListener("mousedown", c), n == null || n.removeEventListener("touchstart", c), n == null || n.removeEventListener("mouseup", u), n == null || n.removeEventListener("touchend", u), n == null || n.removeEventListener("mousemove", v), n == null || n.removeEventListener("touchmove", d);
     };
-    function i() {
+    function c() {
       o.current.isActive = !0;
     }
-    function r() {
-      o.current.isActive = !1;
+    function u() {
+      o.current.isActive = !1, window.clearInterval(i);
     }
-    function u(s) {
+    function v(s) {
       if (!o.current.isActive)
         return;
-      const f = s.currentTarget;
-      m(
-        f,
-        T(f, t.boundary, d(s))
-      );
-    }
-    function l(s) {
-      if (!o.current.isActive)
-        return;
-      const f = s.currentTarget, v = T(
+      window.clearInterval(i);
+      const f = s.currentTarget, l = T(
         f,
         t.boundary,
-        d(s)
+        a(s)
       );
-      s.cancelable && v !== c.CENTER && s.preventDefault(), m(f, v);
+      l !== r.CENTER && (i = window.setInterval(() => {
+        m(f, l);
+      }, 10));
+    }
+    function d(s) {
+      if (!o.current.isActive)
+        return;
+      window.clearInterval(i);
+      const f = s.currentTarget, l = T(
+        f,
+        t.boundary,
+        a(s)
+      );
+      s.cancelable && l !== r.CENTER && s.preventDefault(), l !== r.CENTER && (i = window.setInterval(() => {
+        m(f, l);
+      }, 10));
     }
   }, [t]);
 }
-function d(e) {
-  const { left: t, top: o } = O(e.currentTarget);
+function a(e) {
+  const { left: t, top: o } = w(e.currentTarget);
   return "clientX" in e ? [e.clientX - t, e.clientY - o] : [
     e.changedTouches[0].clientX - t,
     e.changedTouches[0].clientY - o
   ];
 }
-function O(e) {
+function w(e) {
   return e === document.body ? {
     left: 0,
     top: 0
   } : e.getBoundingClientRect();
 }
-const c = {
+const r = {
   LEFT: 0,
   RIGHT: 1,
   TOP: 2,
@@ -78,27 +86,27 @@ const c = {
   CENTER: 4
 };
 function T(e, t, o) {
-  const { width: n, height: i } = e.getBoundingClientRect(), [r, u] = o;
-  return r >= 0 && r <= t ? c.LEFT : r >= n - t && r <= n ? c.RIGHT : u >= 0 && u <= t ? c.TOP : u >= i - t && u <= i ? c.BOTTOM : c.CENTER;
+  const { width: n, height: i } = e.getBoundingClientRect(), [c, u] = o;
+  return c >= 0 && c <= t ? r.LEFT : c >= n - t && c <= n ? r.RIGHT : u >= 0 && u <= t ? r.TOP : u >= i - t && u <= i ? r.BOTTOM : r.CENTER;
 }
 function m(e, t) {
   switch (t) {
-    case c.TOP:
+    case r.TOP:
       e.scrollTo({
         top: e.scrollTop - 5
       });
       break;
-    case c.BOTTOM:
+    case r.BOTTOM:
       e.scrollTo({
         top: e.scrollTop + 5
       });
       break;
-    case c.LEFT:
+    case r.LEFT:
       e.scrollTo({
         left: e.scrollLeft - 5
       });
       break;
-    case c.RIGHT:
+    case r.RIGHT:
       e.scrollTo({
         left: e.scrollLeft + 5
       });
@@ -107,6 +115,6 @@ function m(e, t) {
 }
 export {
   C as useClickOutOfArea,
-  R as useMoveToScroll
+  R as useDragScroll
 };
 //# sourceMappingURL=react-hooks.js.map

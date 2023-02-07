@@ -9,7 +9,7 @@ const defaultOptions: MoveToScrollOptions = {
     boundary: 40,
 };
 
-function useMoveToScroll<T extends HTMLElement>(
+function useDragScroll<T extends HTMLElement>(
     target: React.RefObject<T> | HTMLElement | string,
     options: MoveToScrollOptions = defaultOptions
 ) {
@@ -21,6 +21,8 @@ function useMoveToScroll<T extends HTMLElement>(
         const _target = findElement(target);
 
         if (!_target) return;
+
+        let intervId: number;
 
         _target.addEventListener("mousedown", activate);
         _target.addEventListener("touchstart", activate);
@@ -43,21 +45,13 @@ function useMoveToScroll<T extends HTMLElement>(
         }
         function inactivate() {
             state.current.isActive = false;
+            window.clearInterval(intervId);
         }
 
         function moveCursor(e: MouseEvent) {
             if (!state.current.isActive) return;
 
-            const target = e.currentTarget as HTMLElement;
-
-            moveToScroll(
-                target,
-                getPosition(target, options.boundary, getCoordinate(e))
-            );
-        }
-
-        function moveTouch(e: TouchEvent) {
-            if (!state.current.isActive) return;
+            window.clearInterval(intervId);
 
             const target = e.currentTarget as HTMLElement;
             const position = getPosition(
@@ -66,19 +60,42 @@ function useMoveToScroll<T extends HTMLElement>(
                 getCoordinate(e)
             );
 
-            /**
-             * https://www.uriports.com/blog/easy-fix-for-intervention-ignored-attempt-to-cancel-a-touchmove-event-with-cancelable-false/
-             */
+            if (position !== POSITION.CENTER) {
+                intervId = window.setInterval(() => {
+                    moveToScroll(target, position);
+                }, 10);
+            }
+        }
+
+        function moveTouch(e: TouchEvent) {
+            if (!state.current.isActive) return;
+
+            window.clearInterval(intervId);
+
+            const target = e.currentTarget as HTMLElement;
+            const position = getPosition(
+                target,
+                options.boundary,
+                getCoordinate(e)
+            );
+
             if (e.cancelable && position !== POSITION.CENTER) {
                 e.preventDefault();
             }
 
-            moveToScroll(target, position);
+            if (position !== POSITION.CENTER) {
+                intervId = window.setInterval(() => {
+                    /**
+                     * https://www.uriports.com/blog/easy-fix-for-intervention-ignored-attempt-to-cancel-a-touchmove-event-with-cancelable-false/
+                     */
+                    moveToScroll(target, position);
+                }, 10);
+            }
         }
     }, [options]);
 }
 
-export default useMoveToScroll;
+export default useDragScroll;
 
 function getCoordinate(e: MouseEvent | TouchEvent): [number, number] {
     const { left, top } = getBoundingClientRect(e.currentTarget as HTMLElement);
