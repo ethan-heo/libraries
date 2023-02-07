@@ -1,5 +1,11 @@
 # @ethan-heo/react-hooks
 
+## 0.7.0
+
+### Minor Changes
+
+-   e1dcaa9: useDragScroll로 이름을 변경하고 지속적으로 움직일 수 있도록 로직을 변경한다
+
 ## 0.6.0
 
 ### Minor Changes
