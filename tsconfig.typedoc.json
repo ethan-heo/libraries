@@ -1,7 +1,0 @@
-{
-    "typedocOptions": {
-        "out": "docs",
-        "entryPointStrategy": "packages",
-        "entryPoints": ["packages/react-hooks"]
-    }
-}
