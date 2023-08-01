@@ -1,13 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    /*
+      타겟 설정에 따라 lib 의 기본값이 변경된다.
+    */
+    "target": "ES2020", // https://www.typescriptlang.org/tsconfig#target
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    /*
+      각 환경에 맞는 정의된 타입을 제공한다.
+    */
+    "lib": ["ES2020", "DOM", "DOM.Iterable"], // https://www.typescriptlang.org/tsconfig#lib
+    /*
+      모듈 시스템을 사용할 수 있도록 설정하는 옵션. 값에 따라 moduleResolution 속성에 영향을 미친다.
+    */
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    /*
+      모듈에 따라 사용되는 알고리즘이 다르다. module 옵션에 따라 다르게 설정해주어야 함.
+    */
+    "moduleResolution": "bundler", // https://www.typescriptlang.org/tsconfig#moduleResolution
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
