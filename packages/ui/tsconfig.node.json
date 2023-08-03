@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-    "composite": true,
+    /*
+      의존된 모듈에 대해서 알아서 트랜스파일을 해준다. 모노레포 형식에서 다른 패키지의 모듈을 의존할 때 효율적임.
+    */
+    "composite": true, // https://www.typescriptlang.org/tsconfig#composite
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    /*
+      모든 파일에서 export default 를 진행해주도록 하는 옵션.
+    */
+    "allowSyntheticDefaultImports": true // https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports
   },
   "include": ["vite.config.ts"]
 }

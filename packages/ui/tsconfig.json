@@ -63,6 +63,12 @@
     */
     "noFallthroughCasesInSwitch": true // https://www.typescriptlang.org/tsconfig#noFallthroughCasesInSwitch
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  /*
+    해당 경로를 기준으로 파일을 검사하도록 하는 옵션.
+  */
+  "include": ["src"], // https://www.typescriptlang.org/tsconfig#include
+  /*
+    compose와 함께 사용되는 옵션으로 프로젝트를 좀 더 작은 단위로 의존된 파일을 설정할 수 있도록 하는 옵션
+  */
+  "references": [{ "path": "./tsconfig.node.json" }] // https://www.typescriptlang.org/tsconfig#references
 }
